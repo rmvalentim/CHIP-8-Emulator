@@ -59,6 +59,23 @@ class Chip8 {
             this.memory[0x200 + i] = rom[i]
         }
     }
+
+    // CPU Cycle
+    cycle() {
+        // Fetch Opcode - Combine first and second byte to generate Chip8 16 bits Opcode
+        const opcode = (this.memory[this.pc] << 8 ) | this.memory[this.pc + 1]
+
+        // Decode and execute corresponding instruction
+        this.executeInstruction(opcode)
+
+        if(this.delayTimer > 0 ) this.delayTimer--
+        if(this.soundTimer > 0 ) this.soundTimer-- 
+
+    }
+
+    executeInstruction(opcode) {
+        return
+    }
 }
 
 const chip8 = new Chip8(canvas)
