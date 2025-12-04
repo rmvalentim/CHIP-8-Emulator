@@ -45,6 +45,11 @@ class Chip8 {
             0xF0, 0x80, 0xF0, 0x80, 0x80  // F
         
         ]
+
+        // Load fontset into memory 0x050 to 0x09F
+        for (let i = 0; i < this.fontset.length; i++) {
+            this.memory[0x050 + 1] = this.fontset[i]
+        }
     }
 }
 
