@@ -5,8 +5,9 @@ class Chip8 {
     constructor(canvas) {
         // Canvas
         this.canvas = canvas
-        this.canvas.width = 640
-        this.canvas.height = 320
+        this.pixelScale = 10
+        this.canvas.width = 64 * this.pixelScale
+        this.canvas.height = 32 * this.pixelScale
         this.context = canvas.getContext("2d")
         this.context.fillStyle = "black"
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
@@ -48,7 +49,7 @@ class Chip8 {
 
         // Load fontset into memory 0x050 to 0x09F
         for (let i = 0; i < this.fontset.length; i++) {
-            this.memory[0x050 + 1] = this.fontset[i]
+            this.memory[0x050 + 1] = this.fontset[i]            
         }
     }
 }
