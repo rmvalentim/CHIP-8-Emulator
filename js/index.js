@@ -50,6 +50,13 @@ class Chip8 {
         // Load fontset into memory 0x050 to 0x09F
         for (let i = 0; i < this.fontset.length; i++) {
             this.memory[0x050 + i] = this.fontset[i]       
+        }        
+    }
+
+    // Load Rom to memory - Starting at 0x200
+    loadRom(rom) {
+        for (let i = 0; i < rom.length; i++) {
+            this.memory[0x200 + i] = rom[i]
         }
     }
 }
