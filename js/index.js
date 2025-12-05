@@ -109,6 +109,11 @@ class Chip8 {
                 if (this.V[x] === nn) this.pc += 2
                 break
             }
+            case 0x4000: {
+                // Skip next instruction if V[x] !== NN
+                if (this.V[x] !== nn) this.pc += 2
+                break
+            }
             case 0x6000: {
                 // Set V[x] = NN
                 this.V[x] = nn
