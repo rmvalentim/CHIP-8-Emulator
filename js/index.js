@@ -124,6 +124,64 @@ class Chip8 {
                 this.V[x] = (this.V[x] + nn) & 0xFF
                 break
             }
+            case 0x8000: {
+                switch (opcode & 0x000F) {
+                    case 0x0000: {
+                        // V[x] = V[y]
+                        this.V[x] = this.V[y]
+                        break
+                    }
+                    case 0x0001: {
+                        // V[x] Bitwise OR V[y]
+                        this.V[x] |= this.V[y]
+                        break
+                    }
+                    case 0x0002: {
+                        // V[x] Bitwise AND V[y]
+                        this.V[x] &= this.V[y]
+                        break
+                    }
+                    case 0x0003: {
+                        // V[x] Bitwise XOR V[y]
+                        this.V[x] ^= this.V[y]
+                        break
+                    }
+                    case 0x0004: {
+                        // V[x] + V[y] -> Carry
+                        const sum = this.V[x] + this.V[y]
+                        this.V[0xF] = sum > 0xFF ? 1 : 0
+                        this.V[x] = sum & 0xFF
+                        break
+                    }
+                    case 0x0005: {
+                        // V[x] - V[y] -> Borrow
+                        const sub = this.V[x] - this.V[y]
+                        this.V[0xF] = sub < 0x0 ? 0 : 1
+                        this.V[x] = sub & 0xFF
+                        break
+                    }
+                    case 0x0006: {
+                        // V[x] Right Shift -> Least signficant bit
+                        this.V[0xF] = this.V[x] & 0x1
+                        this.V[x] >>= 0x1
+                        break
+                    }
+                    case 0x0007: {
+                        // V[y] - V[x] -> Borrow
+                        const sub = this.V[y] - this.V[x]
+                        this.V[0xF] = sub < 0x0 ? 0 : 1
+                        this.V[x] = sub & 0xFF
+                        break
+                    }
+                    case 0x000E: {
+                        // V[x] Left Shift -> Most signficant bit
+                        this.V[0xF] = (this.V[x] >> 7) & 0x1
+                        this.V[x] = (this.V[x] << 0x1) & 0xFF
+                        break
+                    }
+                }
+                break
+            }
             case 0xA000: {
                 // Ser I = NNN
                 this.I = nnn
