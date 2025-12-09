@@ -257,10 +257,15 @@ class Chip8 {
                 break
             }
             case 0xE000: {
-                if( opcode & 0x00FF === 0x009E ) {
+                if( (opcode & 0x00FF) === 0x009E ) {
+                    // Skip next instruction if key stored in V[x] is pressed
+                    if( this.keys[this.V[x]] ) this.pc += 2
+                    break
 
-                } else if ( opcode & 0x00FF === 0x00A1 ) {
-                    
+                } else if ( (opcode & 0x00FF) === 0x00A1 ) {
+                    // Skip next instruction if key stored in V[x] is not pressed
+                    if( !this.keys[this.V[x]] ) this.pc += 2
+                    break
                 }
                 break
             }
