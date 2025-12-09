@@ -295,7 +295,9 @@ class Chip8 {
                         break
                     }
                     case 0x001E: {
-
+                        // I = I + V[x]
+                        this.I = this.I + this.V[x]
+                        break
                     }
                     case 0x0029: {
 
