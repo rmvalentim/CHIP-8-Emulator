@@ -201,6 +201,11 @@ class Chip8 {
                 this.I = nnn
                 break
             }
+            case 0xB000: {
+                // Jump to address nnn + V[0]
+                this.pc = nnn + this.V[0]
+                break
+            }
             case 0xD000: {
                 // Draw sprint at (V[x], V[y]) with width 8 and height N
                 const vx = this.V[x]
