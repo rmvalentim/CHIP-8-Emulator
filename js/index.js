@@ -272,18 +272,25 @@ class Chip8 {
             case 0xF000: {
                 switch (opcode & 0x00FF) {
                     case 0x0007: {
+                        // V[x] = Delay Timer
                         this.V[x] = this.delayTimer
                         break
                     }
                     case 0x000A: {
-
+                        const keyPressed = this.keys.findIndex(k => k === 1)
+                        if(keyPressed !== -1) {
+                            this.V[x] = keyPressed
+                        } else {
+                            this.pc -= 2
+                        }
                     }
                     case 0x0015: {
+                        // Delay Timer = V[x]
                         this.delayTimer = this.V[x]
                         break
-
                     }
                     case 0x0018: {
+                        // Sound Timer = V[x]
                         this.soundTimer = this.V[x]
                         break
                     }
