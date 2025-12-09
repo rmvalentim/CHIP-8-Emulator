@@ -272,16 +272,20 @@ class Chip8 {
             case 0xF000: {
                 switch (opcode & 0x00FF) {
                     case 0x0007: {
-                        
+                        this.V[x] = this.delayTimer
+                        break
                     }
                     case 0x000A: {
 
                     }
                     case 0x0015: {
+                        this.delayTimer = this.V[x]
+                        break
 
                     }
                     case 0x0018: {
-
+                        this.soundTimer = this.V[x]
+                        break
                     }
                     case 0x001E: {
 
