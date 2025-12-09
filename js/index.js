@@ -51,6 +51,26 @@ class Chip8 {
         for (let i = 0; i < this.fontset.length; i++) {
             this.memory[0x050 + i] = this.fontset[i]
         }
+
+        // Key map - keypad
+        this.keymap = {
+            "1": 0x1, "2": 0x2, "3": 0x3, "4": 0xC,
+            "q": 0x4, "w": 0x5, "e": 0x6, "r": 0xD,
+            "a": 0x7, "s": 0x8, "d": 0x9, "f": 0xE,
+            "z": 0xA, "x": 0x0, "c": 0xB, "v": 0xF
+        }
+    }
+
+    // Mapped Key Down user input
+    keyDown(event) {
+        const key = this.keymap[event.key]
+        if(key !== undefined) this.keys[key] = true
+    }
+
+    // Mapped Key Up user input
+    keyUp(event) {
+        const key = this.keymap[event.key]
+        if(key !== undefined) this.keys[key] = false
     }
 
     // Load Rom to memory - Starting at 0x200
@@ -236,6 +256,45 @@ class Chip8 {
                 }
                 break
             }
+            case 0xE000: {
+                if( opcode & 0x00FF === 0x009E ) {
+
+                } else if ( opcode & 0x00FF === 0x00A1 ) {
+                    
+                }
+                break
+            }
+            case 0xF000: {
+                switch (opcode & 0x00FF) {
+                    case 0x0007: {
+                        
+                    }
+                    case 0x000A: {
+
+                    }
+                    case 0x0015: {
+
+                    }
+                    case 0x0018: {
+
+                    }
+                    case 0x001E: {
+
+                    }
+                    case 0x0029: {
+
+                    }
+                    case 0x0033: {
+
+                    }
+                    case 0x0055: {
+
+                    }
+                    case 0x0065: {
+
+                    }
+                }
+            }
             default: {
                 console.log(`Unknown opcode: 0x${opcode.toString(16).toUpperCase()}`);
             }
@@ -299,6 +358,15 @@ const rom = [
 ]
 
 chip8.loadRom(rom)
+
+document.addEventListener("keydown", (event) => {
+    chip8.keyDown(event)
+})
+
+document.addEventListener("keyup", (event) => {
+    chip8.keyUp(event)
+})
+
 
 function run() {
     for (let i = 0; i < chip8.speed; i++) {
