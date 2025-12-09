@@ -206,6 +206,12 @@ class Chip8 {
                 this.pc = nnn + this.V[0]
                 break
             }
+            case 0xC000: {
+                // V[x] = Random number between 0 and 255 AND nn
+                const random = Math.floor(Math.random() * 256)
+                this.V[x] = random & nn
+                break
+            }
             case 0xD000: {
                 // Draw sprint at (V[x], V[y]) with width 8 and height N
                 const vx = this.V[x]
