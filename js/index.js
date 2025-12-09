@@ -115,11 +115,11 @@ class Chip8 {
                 break
             }
             case 0x5000: {
-                if((opcode & 0x000F) === 0x0) {
+                if ((opcode & 0x000F) === 0x0) {
                     // Skip next instruction if V[x] = V[y]
                     if (this.V[x] === this.V[y]) this.pc += 2
-                    break
                 }
+                break
             }
             case 0x6000: {
                 // Set V[x] = NN
@@ -186,6 +186,13 @@ class Chip8 {
                         this.V[x] = (this.V[x] << 0x1) & 0xFF
                         break
                     }
+                }
+                break
+            }
+            case 0x9000: {
+                if ((opcode & 0x000F) === 0x0) {
+                    // Skip next instruction if V[x] != V[y]
+                    if (this.V[x] !== this.V[y]) this.pc += 2
                 }
                 break
             }
