@@ -14,4 +14,5 @@ O objetivo é entender os conceitos fundamentais de emulação — como ciclos d
 - Timers de delay e som  
 
 ## 🔧 Implementações até aqui
-- Javascript + HTML Canvas [Em Desenvolvimento]
+- Javascript + HTML Canvas [Finalizada]
+- Python + PyGame [Em breve...]
