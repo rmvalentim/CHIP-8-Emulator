@@ -5,7 +5,7 @@ class Chip8 {
     constructor(canvas) {
         // Canvas
         this.canvas = canvas
-        this.pixelScale = 10
+        this.pixelScale = 20
         this.canvas.width = 64 * this.pixelScale
         this.canvas.height = 32 * this.pixelScale
         this.context = canvas.getContext("2d")
@@ -24,7 +24,7 @@ class Chip8 {
         this.display = new Array(64 * 32).fill(0)
         this.keys = new Array(16).fill(false)
         this.paused = false
-        this.speed = 1
+        this.speed = 2
 
         // Fontset
         this.fontset = [
@@ -64,13 +64,13 @@ class Chip8 {
     // Mapped Key Down user input
     keyDown(event) {
         const key = this.keymap[event.key]
-        if(key !== undefined) this.keys[key] = true
+        if (key !== undefined) this.keys[key] = true
     }
 
     // Mapped Key Up user input
     keyUp(event) {
         const key = this.keymap[event.key]
-        if(key !== undefined) this.keys[key] = false
+        if (key !== undefined) this.keys[key] = false
     }
 
     // Load Rom to memory - Starting at 0x200
@@ -257,14 +257,14 @@ class Chip8 {
                 break
             }
             case 0xE000: {
-                if( (opcode & 0x00FF) === 0x009E ) {
+                if ((opcode & 0x00FF) === 0x009E) {
                     // Skip next instruction if key stored in V[x] is pressed
-                    if( this.keys[this.V[x]] ) this.pc += 2
+                    if (this.keys[this.V[x]]) this.pc += 2
                     break
 
-                } else if ( (opcode & 0x00FF) === 0x00A1 ) {
+                } else if ((opcode & 0x00FF) === 0x00A1) {
                     // Skip next instruction if key stored in V[x] is not pressed
-                    if( !this.keys[this.V[x]] ) this.pc += 2
+                    if (!this.keys[this.V[x]]) this.pc += 2
                     break
                 }
                 break
@@ -278,11 +278,12 @@ class Chip8 {
                     }
                     case 0x000A: {
                         const keyPressed = this.keys.findIndex(k => k === 1)
-                        if(keyPressed !== -1) {
+                        if (keyPressed !== -1) {
                             this.V[x] = keyPressed
                         } else {
                             this.pc -= 2
                         }
+                        break
                     }
                     case 0x0015: {
                         // Delay Timer = V[x]
@@ -300,21 +301,43 @@ class Chip8 {
                         break
                     }
                     case 0x0029: {
+                        // I = V[x] * 5
+                        this.I = 0x050 + (this.V[x] * 5)
+                        break
 
                     }
                     case 0x0033: {
+                        // BCD representation of V[x] in memory at I, I+1 and I+2
+                        const value = this.V[x]
+
+                        this.memory[this.I] = Math.floor(value / 100)
+                        this.memory[this.I + 1] = Math.floor((value % 100) / 10)
+                        this.memory[this.I + 2] = value % 10
+                        break
 
                     }
                     case 0x0055: {
+                        // Store registers V[0] through V[x] in memory starting in I
+                        for (let i = 0; i <= x; i++) {
+                            this.memory[this.I + i] = this.V[i]
+                        }
+                        break
 
                     }
                     case 0x0065: {
-
+                        // Read registers V[0] through V[x] from memory starting at I
+                        for (let i = 0; i <= x; i++) {
+                            this.V[i] = this.memory[this.I + i]
+                        }
+                        break
                     }
+
                 }
+                break
             }
             default: {
                 console.log(`Unknown opcode: 0x${opcode.toString(16).toUpperCase()}`);
+                break
             }
         }
     }
