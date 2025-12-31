@@ -24,7 +24,7 @@ class Chip8 {
         this.display = new Array(64 * 32).fill(0)
         this.keys = new Array(16).fill(false)
         this.paused = false
-        this.speed = 2
+        this.speed = 3
 
         // Fontset
         this.fontset = [
