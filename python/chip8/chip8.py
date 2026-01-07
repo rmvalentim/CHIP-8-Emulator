@@ -19,6 +19,9 @@ class Chip8:
         while self.running:
             for event in self.screen.pygame.event.get():
                 if event.type == self.screen.pygame.QUIT:
-                    self.running = False            
+                    self.running = False   
+
+            # Test draw rect
+            self.screen.pygame.draw.rect(self.screen.surface,"red", (20, 10, 204, 20))         
             
             self.screen.pygame.display.flip()
