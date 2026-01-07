@@ -25,7 +25,6 @@ class Chip8:
                 if event.type == self.screen.pygame.KEYUP:
                     self.keyboard.keyup(event.key)
 
-            # Test draw rect
-            # self.screen.pygame.draw.rect(self.screen.surface,"red", (20, 10, 204, 20))         
+            self.screen.draw_rect(10, 10, 50, 50)    
             
             self.screen.pygame.display.flip()
