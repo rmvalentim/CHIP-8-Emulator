@@ -13,3 +13,12 @@ class Chip8:
         self.keyboard = Keyboard()
         self.screen = Screen()
         print("Chip 8 Initialized")
+        self.running = True        
+
+    def run(self):
+        while self.running:
+            for event in self.screen.pygame.event.get():
+                if event.type == self.screen.pygame.QUIT:
+                    self.running = False            
+            
+            self.screen.pygame.display.flip()
