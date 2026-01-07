@@ -17,7 +17,13 @@ class Chip8:
         while self.running:
             for event in self.screen.pygame.event.get():
                 if event.type == self.screen.pygame.QUIT:
-                    self.running = False   
+                    self.running = False
+                
+                if event.type == self.screen.pygame.KEYDOWN:
+                    self.keyboard.keydown(event.key)
+
+                if event.type == self.screen.pygame.KEYUP:
+                    self.keyboard.keyup(event.key)
 
             # Test draw rect
             # self.screen.pygame.draw.rect(self.screen.surface,"red", (20, 10, 204, 20))         
