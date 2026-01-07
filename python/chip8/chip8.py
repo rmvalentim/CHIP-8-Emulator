@@ -6,13 +6,11 @@ from chip8.screen import Screen
 
 class Chip8:
     def __init__(self):
-        print("Chip 8 Initializing")
         self.cpu = Cpu()
         self.memory = Memory()
         self.font_set = FontSet()
         self.keyboard = Keyboard()
         self.screen = Screen()
-        print("Chip 8 Initialized")
         self.running = True        
 
     def run(self):
@@ -22,6 +20,6 @@ class Chip8:
                     self.running = False   
 
             # Test draw rect
-            self.screen.pygame.draw.rect(self.screen.surface,"red", (20, 10, 204, 20))         
+            # self.screen.pygame.draw.rect(self.screen.surface,"red", (20, 10, 204, 20))         
             
             self.screen.pygame.display.flip()

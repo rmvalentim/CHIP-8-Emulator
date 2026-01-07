@@ -1,3 +1,9 @@
 class Memory:
     def __init__(self):
-        print("Memory Initialized")
+        self.ram = bytearray(4096)
+
+    def read(self, address):
+        return self.ram[address]
+    
+    def write(self, address, value):
+        self.ram[address] = value
