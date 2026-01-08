@@ -1,4 +1,4 @@
-from chip8.fontset import FontSet
+from chip8.fontset import font_set
 
 class Memory:
     def __init__(self):
@@ -12,7 +12,7 @@ class Memory:
         self.ram[address] = value
 
     def load_fontset(self):
-        fontset = FontSet.data()
+        fontset = font_set.data
         for i in range(len(fontset)):
             self.ram[0x050 + i] = fontset[i]
 

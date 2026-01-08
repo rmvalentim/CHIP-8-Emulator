@@ -34,3 +34,5 @@ class Keyboard:
         if key in self.keymap:
             chip8_key = self.keymap[key]
             cpu.cpu_keyup(chip8_key)
+
+keyboard = Keyboard()

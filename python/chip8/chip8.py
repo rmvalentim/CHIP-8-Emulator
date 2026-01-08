@@ -1,15 +1,13 @@
 from chip8.cpu import cpu
 from chip8.memory import memory
-from chip8.fontset import FontSet
-from chip8.keyboard import Keyboard
+from chip8.keyboard import keyboard
 from chip8.screen import screen
 
 class Chip8:
     def __init__(self):
         self.cpu = cpu
         self.memory = memory
-        self.font_set = FontSet()
-        self.keyboard = Keyboard()
+        self.keyboard = keyboard
         self.screen = screen
         self.running = True        
 
