@@ -7,14 +7,13 @@ class Cpu:
         self.V = bytearray(16)
         self.I = 0
         self.pc = 0x200
-        self.stack = []
-        self.sp = 0
+        self.stack = []        
         self.delay_timer = 0
         self.sound_timer = 0
         self.display = [0] * (64 * 32)
         self.keys = [0] * 16
         self.paused = False
-        self.speed = 3
+        self.speed = 1
 
     def cpu_keydown(self, key):        
         if key is not None:
@@ -30,10 +29,10 @@ class Cpu:
         self.execute_istructions(opcode)
 
         if self.delay_timer > 0:
-            self.delay_timer -= self.delay_timer
+            self.delay_timer -= 1
         
         if self.sound_timer > 0:
-            self.sound_timer -= self.sound_timer
+            self.sound_timer -= 1
     
     def render_display(self):
         screen.clear_screen()
@@ -202,11 +201,11 @@ class Cpu:
                         memory.write((self.I + 2), (value % 10))
 
                     case 0x0055:
-                        for i in range(0, x):
+                        for i in range(0, x + 1):
                             memory.write((self.I + i), self.V[i])
 
                     case 0x0065:
-                        for i in range(0, x):
+                        for i in range(0, x + 1):
                             self.V[i] = memory.read(self.I + i)
 
             case _:
