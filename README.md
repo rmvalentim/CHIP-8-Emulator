@@ -15,4 +15,4 @@ O objetivo é entender os conceitos fundamentais de emulação — como ciclos d
 
 ## 🔧 Implementações até aqui
 - Javascript + HTML Canvas [Finalizada]
-- Python + PyGame [Em breve...]
+- Python + PyGame [Finalizada]
