@@ -54,8 +54,25 @@ class Cpu:
         nn = opcode & 0x00FF
         nnn = opcode & 0x0FFF
 
-        self.pc += 2
+        self.pc += 2 
 
-        print(hex(opcode))
+        match (opcode & 0xF000):
+            case 0x0000:
+                match opcode:
+                    case 0x00E0:
+                        self.display = [0] * (64 * 32)
+                    case 0x00EE:
+                        self.pc = self.stack.pop()
+
+            case 0x1000:
+                self.pc = nnn
+
+            case 0x2000:
+                self.stack.append(self.pc)
+                self.pc = nnn
+
+
+            case _:
+                print(f"Unknown opcode: {hex(opcode)} ")
 
 cpu = Cpu()
