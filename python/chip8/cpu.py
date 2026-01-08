@@ -1,3 +1,4 @@
+import random
 from chip8.memory import memory
 from chip8.screen import screen
 
@@ -89,10 +90,58 @@ class Cpu:
 
             case 0x7000:
                 self.V[x] = (self.V[x] + nn) & 0xFF
+            
+            case 0x8000:
+                match (opcode & 0x000F):
+                    case 0x0000:
+                        self.V[x] = self.V[y]
+
+                    case 0x0001:
+                        self.V[x] |= self.V[y]
+
+                    case 0x0002:
+                        self.V[x] &= self.V[y]
+
+                    case 0x0003:
+                        self.V[x] ^= self.V[y]
+
+                    case 0x0004:
+                        sum = self.V[x] + self.V[y]
+                        self.V[0xF] = 1 if sum > 0xFF else 0
+                        self.V[x] = sum & 0xFF
+                    
+                    case 0x0005: 
+                        sub = self.V[x] - self.V[y]
+                        self.V[0xF] = 1 if sub < 0x0 else 0
+                        self.V[x] = sub & 0xFF
+
+                    case 0x0006:
+                        self.V[0xF] = self.V[x] & 0x1
+                        self.V[x] >>= 0x1
+
+                    case 0x0007:
+                        sub = self.V[y] - self.V[x]
+                        self.V[0xF] = 0 if sub < 0x0 else 1
+                        self.V[x] = sub & 0xFF
+
+                    case 0x000E:
+                        self.V[0xF] = (self.V[x] >> 7) & 0x1
+                        self.V[x] = (self.V[x] << 0x1) & 0xFF
+            
+            case 0x9000:
+                if ((opcode & 0x000F) == 0x0):
+                    if self.V[x] != self.V[y]:
+                        self.pc +=2
 
             case 0xA000:
                 self.I = nnn
 
+            case 0xB000:
+                self.pc = nnn + self.V[0]
+
+            case 0xC000:
+                random_number = random.randrange(256)
+                self.V[x] = random_number & nn
             
             case 0xD000:
                 vx = self.V[x]
