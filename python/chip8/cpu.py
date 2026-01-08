@@ -11,3 +11,13 @@ class Cpu:
         self.keys = [0] * 16
         self.paused = False
         self.speed = 3
+
+    def cpu_keydown(self, key):        
+        if key is not None:
+            self.keys[key] = 1
+    
+    def cpu_keyup(self, key):
+        if key is not None:
+            self.keys[key] = 0
+
+cpu = Cpu()

@@ -1,4 +1,5 @@
 import pygame
+from chip8.cpu import cpu
 
 class Keyboard:
     def __init__(self):
@@ -24,12 +25,12 @@ class Keyboard:
             pygame.K_v: 0xF
         }
 
-    def keydown(self, key):
+    def keydown(self, key):        
         if key in self.keymap:
-            chip8_key = self.keymap[key]
-            print(f"KeyDown: {hex(chip8_key)}")
+            chip8_key = self.keymap[key]            
+            cpu.cpu_keydown(chip8_key)
 
     def keyup(self, key):
         if key in self.keymap:
             chip8_key = self.keymap[key]
-            print(f"KeyUp: {hex(chip8_key)}")
+            cpu.cpu_keyup(chip8_key)
