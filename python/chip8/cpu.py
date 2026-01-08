@@ -1,4 +1,5 @@
 from chip8.memory import memory
+from chip8.screen import screen
 
 class Cpu:
     def __init__(self):
@@ -25,7 +26,7 @@ class Cpu:
     def cycle(self):
         opcode = (memory.read(self.pc) << 8) | memory.read(self.pc + 1)
 
-        self.execute_instruction(opcode)
+        self.execute_istructions(opcode)
 
         if self.delay_timer > 0:
             self.delay_timer -= self.delay_timer
@@ -33,8 +34,28 @@ class Cpu:
         if self.sound_timer > 0:
             self.sound_timer -= self.sound_timer
     
+    def render_display(self):
+        screen.clear_screen()
+        
+        for y in range(32):
+            for x in range(64):
+                if self.display[y * 64 + x] == 1:
+                    screen.draw_rect((x * screen.pixel_scale), 
+                                     (y * screen.pixel_scale),
+                                     screen.pixel_scale,
+                                     screen.pixel_scale
+                                     )
 
-    def execute_instruction(self, opcode):
-        print(opcode)
+    def execute_istructions(self, opcode):
+
+        x = (opcode & 0x0F00) >> 8
+        y = (opcode & 0x00F0) >> 4
+        n = opcode & 0x000F
+        nn = opcode & 0x00FF
+        nnn = opcode & 0x0FFF
+
+        self.pc += 2
+
+        print(hex(opcode))
 
 cpu = Cpu()

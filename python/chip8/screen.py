@@ -21,3 +21,8 @@ class Screen:
 
     def draw_rect(self, x, y, width, height):
         self.pygame.draw.rect(self.surface, self.font_color, (x, y, width, height))
+
+    def clear_screen(self):
+        self.screen.fill(self.background_color)
+
+screen = Screen()
