@@ -1,3 +1,5 @@
+from chip8.memory import memory
+
 class Cpu:
     def __init__(self):
         self.V = bytearray(16)
@@ -19,5 +21,20 @@ class Cpu:
     def cpu_keyup(self, key):
         if key is not None:
             self.keys[key] = 0
+
+    def cycle(self):
+        opcode = (memory.read(self.pc) << 8) | memory.read(self.pc + 1)
+
+        self.execute_instruction(opcode)
+
+        if self.delay_timer > 0:
+            self.delay_timer -= self.delay_timer
+        
+        if self.sound_timer > 0:
+            self.sound_timer -= self.sound_timer
+    
+
+    def execute_instruction(self, opcode):
+        print(opcode)
 
 cpu = Cpu()

@@ -1,13 +1,13 @@
-from chip8.cpu import Cpu
-from chip8.memory import Memory
+from chip8.cpu import cpu
+from chip8.memory import memory
 from chip8.fontset import FontSet
 from chip8.keyboard import Keyboard
 from chip8.screen import Screen
 
 class Chip8:
     def __init__(self):
-        self.cpu = Cpu()
-        self.memory = Memory()
+        self.cpu = cpu
+        self.memory = memory
         self.font_set = FontSet()
         self.keyboard = Keyboard()
         self.screen = Screen()
@@ -24,6 +24,8 @@ class Chip8:
 
                 if event.type == self.screen.pygame.KEYUP:
                     self.keyboard.keyup(event.key)
+
+            cpu.cycle()
 
             self.screen.draw_rect(10, 10, 50, 50)    
             

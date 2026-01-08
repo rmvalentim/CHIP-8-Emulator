@@ -19,3 +19,5 @@ class Memory:
     def load_rom(self, rom):
         for i in range(len(rom)):
             self.ram[0x200 + i] = rom[i]
+
+memory = Memory()
