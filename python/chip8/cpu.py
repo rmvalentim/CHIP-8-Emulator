@@ -13,7 +13,7 @@ class Cpu:
         self.display = [0] * (64 * 32)
         self.keys = [0] * 16
         self.paused = False
-        self.speed = 1
+        self.speed = 2
 
     def cpu_keydown(self, key):        
         if key is not None:
