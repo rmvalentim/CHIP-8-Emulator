@@ -160,6 +160,55 @@ class Cpu:
                             self.V[0xF] = 1
                         self.display[index] ^= pixel
             
+            case 0xE000:
+                if ((opcode & 0x00FF) == 0x009E):
+                    if (self.keys[self.V[x]]):
+                        self.pc += 2
+
+                if ((opcode & 0x00FF) == 0x00A1):
+                    if (not self.keys[self.V[x]]):
+                        self.pc += 2
+            
+            case 0xF000:
+                match (opcode & 0x00FF):
+
+                    case 0x0007:
+                        self.V[x] = self.delay_timer
+
+                    case 0x000A:
+                        key_pressed = self.keys.index(1) if 1 in self.keys else -1
+
+                        if key_pressed != -1:
+                            self.V[x] = key_pressed
+                        else:
+                            self.pc -= 2
+
+                    case 0x0015:
+                        self.delay_timer = self.V[x]
+                    
+                    case 0x0018:
+                        self.sound_timer = self.V[x]
+
+                    case 0x001E:
+                        self.I = self.I + self.V[x]
+
+                    case 0x0029:
+                        self.I = 0x050 + (self.V[x] * 5)    
+
+                    case 0x0033:
+                        value = self.V[x]
+                        memory.write(self.I, (value // 100))
+                        memory.write((self.I + 1), ((value % 100) //  10))
+                        memory.write((self.I + 2), (value % 10))
+
+                    case 0x0055:
+                        for i in range(0, x):
+                            memory.write((self.I + i), self.V[i])
+
+                    case 0x0065:
+                        for i in range(0, x):
+                            self.V[i] = memory.read(self.I + i)
+
             case _:
                 print(f"Unknown opcode: {hex(opcode)} ")
 

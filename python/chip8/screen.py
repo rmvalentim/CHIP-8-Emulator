@@ -3,7 +3,7 @@ import pygame
 class Screen:
 
     def __init__(self):
-        print("Screen initialized")
+        
         self.pixel_scale = 20
         self.width = 64 * self.pixel_scale
         self.height = 32 * self.pixel_scale
