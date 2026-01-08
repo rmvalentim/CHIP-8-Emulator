@@ -71,7 +71,46 @@ class Cpu:
                 self.stack.append(self.pc)
                 self.pc = nnn
 
+            case 0x3000:
+                if self.V[x] == nn:
+                    self.pc += 2
 
+            case 0x4000:
+                if self.V[x] != nn:
+                    self.pc += 2
+            
+            case 0x5000:
+                if (opcode & 0x000F) == 0x0:
+                    if self.V[x] == self.V[y]:
+                        self.pc += 2
+
+            case 0x6000:
+                self.V[x] = nn
+
+            case 0x7000:
+                self.V[x] = (self.V[x] + nn) & 0xFF
+
+            case 0xA000:
+                self.I = nnn
+
+            
+            case 0xD000:
+                vx = self.V[x]
+                vy = self.V[y]
+                height = n
+
+                self.V[0xF] = 0
+
+                for row in range(0, height):
+                    sprite = memory.read(self.I + row)
+                    for col in range(0, 8):
+                        pixel = (sprite >> (7 - col)) & 1
+                        index = ((vy + row) % 32) * 64 + ((vx + col) % 64)
+
+                        if (pixel and self.display[index] == 1):
+                            self.V[0xF] = 1
+                        self.display[index] ^= pixel
+            
             case _:
                 print(f"Unknown opcode: {hex(opcode)} ")
 
